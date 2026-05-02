@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Road+Rage&display=swap');
+
+        #bgVideo {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+            object-fit: cover;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: white;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .header-profil {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .foto-profil {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            border: 2px solid #00f5d4;
+            object-fit: cover;
+            background-color: #222;
+            box-shadow: 0 0 12px rgba(0, 245, 212, 0.5), 
+                        inset 0 0 10px rgba(0, 245, 212, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .foto-profil:active, 
+        .foto-profil:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 20px rgba(0, 245, 212, 0.8), 
+                        inset 0 0 15px rgba(0, 245, 212, 0.5),
+                        0 0 30px rgba(0, 245, 212, 0.3);
+            border-color: #ffffff;
+        }
+
+        .nama-pengguna {
+            font-family: 'Road Rage', cursive;
+            font-size: clamp(1.9rem, 6vw, 2.6rem);
+            margin: 8px 0 0 0;
+            color: #00f5d4;
+            letter-spacing: 1px;
+            text-align: center;
+            text-shadow: 0 0 8px rgba(0, 245, 212, 0.5);
+            transition: all 0.3s ease;
+        }
+        .foto-profil:hover ~ .nama-pengguna,
+        .foto-profil:active ~ .nama-pengguna {
+            text-shadow: 0 0 12px rgba(0, 245, 212, 0.9);
+            transform: scale(1.05);
+        }
+
+        .kotak-pembayaran {
+            background: rgba(20, 20, 40, 0.9);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+            width: 100%;
+            max-width: 420px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-sizing: border-box;
+        }
+
+        .judul-bayar {
+            text-align: center;
+            color: #f1f1f1;
+            margin: 0 0 20px 0;
+            font-size: clamp(1.4rem, 5vw, 1.8rem);
+        }
+
+        .grup-tombol {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .tombol-bayar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: black;
+            width: 100%;
+        }
+
+        .tombol-bayar img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        .dana { background: linear-gradient(45deg, white, skyblue); }
+        .gopay { background: linear-gradient(45deg, #white, blueviolet); }
+        .qris { background: linear-gradient(45deg, #white, red); }
+
+        .tombol-bayar:active,
+        .tombol-bayar:hover {
+            transform: scale(1.03);
+            opacity: 0.9;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .info-pembayaran {
+            background: rgba(255,255,255,0.08);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            display: none;
+            border: 1px solid rgba(255,255,255,0.2);
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .nama-metode {
+            font-size: 18px;
+            font-weight: 600;
+            color: #f1f1f1;
+            margin: 0;
+        }
+
+        .label {
+            font-size: 14px;
+            color: #cccccc;
+            margin: 0;
+        }
+
+        .nomor-tujuan {
+            font-size: 22px;
+            font-weight: bold;
+            color: #00f5d4;
+            letter-spacing: 1px;
+            margin: 5px 0;
+        }
+
+        .gambar-qris {
+            width: 200px;
+            height: 200px;
+            border-radius: 8px;
+            margin: 5px auto;
+            object-fit: contain;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .atas-nama {
+            font-size: 14px;
+            color: #aaaaaa;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <video autoplay muted loop id="bgVideo">
+        <source src="vidio1.mp4" type="video/mp4">
+    </video>
+
+    <div>
+        <div class="header-profil">
+            <img src="F.jpg" alt="Foto Profil" class="foto-profil">
+            <div class="nama-pengguna">Yobsz Payment</div>
+        </div>
+
+        <div class="kotak-pembayaran">
+            <h2 class="judul-bayar"> Metode Pembayaran</h2>
+
+            <div class="grup-tombol">
+                <button class="tombol-bayar dana" onclick="tampilkanInfo('dana')">
+                    <img src="Dana-logo.png" alt="Logo DANA">
+                    <span>BAYAR DENGAN DANA</span>
+                </button>
+
+                <button class="tombol-bayar gopay" onclick="tampilkanInfo('gopay')">
+                    <img src="1719052062_GoPay-Logo-Vertical_Black.png" alt="Logo Gopay">
+                    <span>BAYAR DENGAN GOPAY</span>
+                </button>
+
+                <button class="tombol-bayar qris" onclick="tampilkanInfo('qris')">
+                    <img src="logo-qris.png" alt="Logo QRIS">
+                    <span>BAYAR DENGAN QRIS</span>
+                </button>
+            </div>
+
+            <div class="info-pembayaran" id="areaInfo">
+                <h3 class="nama-metode" id="judulMetode"></h3>
+                <p class="label">Nomor Tujuan:</p>
+                <div class="nomor-tujuan" id="isiNomor"></div>
+                <img src="" alt="QRIS" class="gambar-qris" id="isiGambar">
+                <p class="atas-nama">Atas Nama: Tidak ada nama belum prenium</p>
+            </div>
+        </div>
+    </div>
+
+<script>
+    const dataBayar = {
+        dana: {
+            judul: "Pembayaran via DANA",
+            nomor: "0878-7227-3979", // Ganti nomornya
+            gambar: ""
+        },
+        gopay: {
+            judul: "Pembayaran via GOPAY",
+            nomor: "0878-7227-3979", // Ganti nomornya
+            gambar: ""
+        },
+        qris: {
+            judul: "Pembayaran via QRIS",
+            nomor: "",
+            gambar: "Qr.jpg" // Ganti nama file qris kamu
+        }
+    };
+
+    function tampilkanInfo(jenis) {
+        const area = document.getElementById("areaInfo");
+        const judul = document.getElementById("judulMetode");
+        const nomor = document.getElementById("isiNomor");
+        const gambar = document.getElementById("isiGambar");
+        const labelNomor = document.querySelector('.label');
+
+        judul.innerText = dataBayar[jenis].judul;
+        nomor.innerText = dataBayar[jenis].nomor;
+
+        if (jenis === 'qris') {
+            nomor.style.display = "none";
+            labelNomor.style.display = "none";
+            gambar.style.display = "block";
+            gambar.src = dataBayar[jenis].gambar;
+        } else {
+            nomor.style.display = "block";
+            labelNomor.style.display = "block";
+            gambar.style.display = "none";
+        }
+
+        area.style.display = "flex";
+        area.scrollIntoView({behavior: "smooth", block: "nearest"});
+    }
+</script>
+
+</body>
+</html>
